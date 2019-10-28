@@ -18,10 +18,37 @@ namespace AlphaRangersIntegrator
             if(!_serialPort.IsOpen)
                 _serialPort.Open();
 
+            Console.WriteLine("ALPHA RANGERS - SerialReader\n\n");
+
+            Console.WriteLine("Running...\n\n");
+            Console.WriteLine("Any exception will be printed here\n\n");
+
             while (true)
             {
-                string a = _serialPort.ReadExisting();
-                Console.WriteLine(a);
+                string data = _serialPort.ReadExisting();
+
+                var dataParsed = data.Split(";");
+
+                Baja baja = new Baja();
+
+                try
+                {
+                    baja.Velocidade = Int32.Parse(dataParsed[0]);
+                    baja.Temperatura = Int32.Parse(dataParsed[1]);
+                    baja.FreioQTD = Int32.Parse(dataParsed[2]);
+                    baja.VoltasQTD = Int32.Parse(dataParsed[3]);
+                    baja.Tensao = Int32.Parse(dataParsed[4]);
+
+                    if (baja.ValidateData())
+                        baja.InsertData();
+                    else
+                        throw new Exception("Não foi possível inserir no banco, Algo de errado nao está certo!");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }                
+
                 Thread.Sleep(200);
             }
         }
