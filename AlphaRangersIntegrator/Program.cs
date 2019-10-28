@@ -39,10 +39,7 @@ namespace AlphaRangersIntegrator
                     baja.VoltasQTD = Int32.Parse(dataParsed[3]);
                     baja.Tensao = Int32.Parse(dataParsed[4]);
 
-                    if (baja.ValidateData())
-                        baja.InsertData();
-                    else
-                        throw new Exception("Não foi possível inserir no banco, Algo de errado nao está certo!");
+                    baja.InsertData();                    
                 }
                 catch (Exception ex)
                 {
