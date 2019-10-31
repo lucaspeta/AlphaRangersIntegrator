@@ -11,7 +11,7 @@ namespace AlphaRangersIntegrator
         {
             _serialPort = new SerialPort
             {
-                PortName = "COM4",
+                PortName = "COM5",
                 BaudRate = 9600
             };
 
@@ -43,8 +43,8 @@ namespace AlphaRangersIntegrator
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine(ex.Message);
-                }                
+                    //Console.WriteLine(ex.Message);
+                }                              
 
                 Thread.Sleep(200);
             }

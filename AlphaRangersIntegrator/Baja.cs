@@ -18,13 +18,28 @@ namespace AlphaRangersIntegrator
         {
         }
 
+        public string ValidadeData()
+        {
+            return "";
+
+            if (this.Velocidade == null)
+                return "Erro ";
+            
+        }
+
+        public void print()
+        {
+            Console.WriteLine(string.Format("{0}, {1}, {2}, {3}, {4}", this.FreioQTD, this.Temperatura, this.Tensao, this.Velocidade, this.VoltasQTD));
+        }
+
         public void InsertData()
         {
             using (SqlConnection connection = new SqlConnection())
             {
-                connection.ConnectionString = "Server=DESKTOP-N2VC4JG;Database=AlphaRangers;Trusted_Connection=true";
-                connection.Open();
-               /* string sql = "INSERT INTO Baja(Velocidade,FreioQtd,VoltasQtd,Temperatura,Bateria,CreatedDate) VALUES(@param1,@param2,@param3,@param4,@param5,@param6)";
+               connection.ConnectionString = "Server=DESKTOP-N2VC4JG;Database=AlphaRangers;Trusted_Connection=true";
+               connection.Open();
+               
+                string sql = "INSERT INTO Baja(Velocidade,FreioQtd,VoltasQtd,Temperatura,Bateria,CreatedDate) VALUES(@param1,@param2,@param3,@param4,@param5,@param6)";
                 using (SqlCommand cmd = new SqlCommand(sql, connection))
                 {
                     cmd.Parameters.Add("@param1", SqlDbType.Int).Value = this.Velocidade;
@@ -35,7 +50,7 @@ namespace AlphaRangersIntegrator
                     cmd.Parameters.Add("@param6", SqlDbType.DateTime).Value = DateTime.Now;
                     cmd.CommandType = CommandType.Text;
                     cmd.ExecuteNonQuery();
-                }*/
+                }
             }
         }
     }
