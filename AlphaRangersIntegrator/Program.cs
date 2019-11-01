@@ -39,11 +39,12 @@ namespace AlphaRangersIntegrator
                     baja.VoltasQTD = Int32.Parse(dataParsed[3]);
                     baja.Tensao = Int32.Parse(dataParsed[4]);
 
-                    baja.InsertData();                    
+                    baja.InsertData();
+                    baja.print();
                 }
                 catch (Exception ex)
                 {
-                    //Console.WriteLine(ex.Message);
+                    Console.WriteLine(ex.Message);
                 }                              
 
                 Thread.Sleep(200);
