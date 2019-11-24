@@ -11,7 +11,7 @@ namespace AlphaRangersIntegrator
         {
             _serialPort = new SerialPort
             {
-                PortName = "COM5",
+                PortName = "COM4",
                 BaudRate = 9600
             };
 
@@ -29,23 +29,38 @@ namespace AlphaRangersIntegrator
 
                 var dataParsed = data.Split(";");
 
-                Baja baja = new Baja();
+                string data_type = dataParsed[0];
 
                 try
                 {
-                    baja.Velocidade = Int32.Parse(dataParsed[0]);
-                    baja.Temperatura = Int32.Parse(dataParsed[1]);
-                    baja.FreioQTD = Int32.Parse(dataParsed[2]);
-                    baja.VoltasQTD = Int32.Parse(dataParsed[3]);
-                    baja.Tensao = Int32.Parse(dataParsed[4]);
+                    if(data_type == "baja"){
+                        Baja baja = new Baja();
+                        
+                        baja.Velocidade = Int32.Parse(dataParsed[1]);
+                        baja.Temperatura = Int32.Parse(dataParsed[2]);
+                        baja.FreioQTD = Int32.Parse(dataParsed[3]);
+                        baja.VoltasQTD = Int32.Parse(dataParsed[4]);
+                        baja.Tensao = Int32.Parse(dataParsed[5]);
 
-                    baja.InsertData();
-                    baja.print();
+                        baja.InsertData();
+                        baja.print();
+                    }
                 }
                 catch (Exception ex)
                 {
                     Console.WriteLine(ex.Message);
-                }                              
+                } 
+
+                Flags Flags = new Flags();
+
+                Flags.ReadFlagsFromDB();
+
+                if(Flags.isThereAnyData)
+                {
+                    _serialPort.Write("{0};{1};{2};{3};{4}", "flags", Flags.Flag_Verde, Flags.Flag_Amarela, Flags.Flag_Vermelha, Flags.Flag_Desligar);
+
+                    Flags.CheckAsRead();
+                }
 
                 Thread.Sleep(200);
             }
