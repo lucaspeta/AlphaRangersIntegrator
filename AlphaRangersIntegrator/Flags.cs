@@ -19,7 +19,14 @@ namespace AlphaRangersIntegrator
         {
         }
 
-        public string ReadFlagsFromDB()
+        public void Print()
+        {
+            Console.Write("F Verde -> "+Flag_Verde+", F Amarela -> "+Flag_Amarela);
+            Console.Write(", F Vermelha -> " + Flag_Vermelha + ", F Desligar -> " + Flag_Desligar);
+            Console.WriteLine();
+        }
+
+        public void ReadFlagsFromDB()
         {
             using (SqlConnection connection = new SqlConnection())
             {
@@ -35,17 +42,17 @@ namespace AlphaRangersIntegrator
                                   ",[CreatedDate] "+
                               "FROM[AlphaRangers].[dbo].[Flags] WHERE WasReaded = 0 ORDER BY ID DESC";
 
-                SqlCommand command = new SqlCommand(Sql_query, conn);
+                SqlCommand command = new SqlCommand(Sql_query, connection);
 
                 using (SqlDataReader reader = command.ExecuteReader())
                 {
                     if (reader.Read())
                     {
-                        this.ID = reader["ID"];
-                        this.Flag_Verde = reader["Green"];
-                        this.Flag_Amarela = reader["Yellow"];
-                        this.Flag_Vermelha = reader["Red"];
-                        this.Flag_Desligar = reader["Shutdown"];
+                        ID = reader.GetInt32(reader.GetOrdinal("ID"));
+                        this.Flag_Verde = reader.GetBoolean(reader.GetOrdinal("Green"));
+                        this.Flag_Amarela = reader.GetBoolean(reader.GetOrdinal("Yellow"));
+                        this.Flag_Vermelha = reader.GetBoolean(reader.GetOrdinal("Red"));
+                        this.Flag_Desligar = reader.GetBoolean(reader.GetOrdinal("Shutdown"));
                         this.isThereAnyFlag = true;
                     }
                     else                    
@@ -63,7 +70,7 @@ namespace AlphaRangersIntegrator
 
                 string sql_query = "UPDATE Flags SET WasReaded = @param1 WHERE Id = @param2";
 
-                using (SqlCommand cmd = new SqlCommand(sql, connection))
+                using (SqlCommand cmd = new SqlCommand(sql_query, connection))
                 {
                     cmd.Parameters.Add("@param1", SqlDbType.Bit).Value = 1;
                     cmd.Parameters.Add("@param2", SqlDbType.Int).Value = this.ID;
