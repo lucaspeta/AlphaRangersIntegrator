@@ -11,7 +11,7 @@ namespace AlphaRangersIntegrator
         {
             _serialPort = new SerialPort
             {
-                PortName = "COM7",
+                PortName = "COM4",
                 BaudRate = 115200
             };
 
@@ -26,6 +26,8 @@ namespace AlphaRangersIntegrator
             while (true)
             {
                 string data = _serialPort.ReadExisting();
+
+                Console.WriteLine(data);
 
                 var dataParsed = data.Split(";");
 
@@ -57,6 +59,7 @@ namespace AlphaRangersIntegrator
 
                 if(Flags.isThereAnyFlag)
                 {
+                    Console.WriteLine("True");
                     _serialPort.Write("flags;"+Flags.Flag_Verde+";"+Flags.Flag_Amarela+";"+Flags.Flag_Vermelha+";"+Flags.Flag_Desligar);
 
                     Flags.Print();

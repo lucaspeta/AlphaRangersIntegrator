@@ -18,15 +18,6 @@ namespace AlphaRangersIntegrator
         {
         }
 
-        public string ValidadeData()
-        {
-            return "";
-
-            if (this.Velocidade == null)
-                return "Erro ";
-            
-        }
-
         public void print()
         {
             Console.WriteLine(string.Format("{0}, {1}, {2}, {3}, {4}", this.FreioQTD, this.Temperatura, this.Tensao, this.Velocidade, this.VoltasQTD));
